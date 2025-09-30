@@ -23,38 +23,20 @@ import {
 } from "@/components/ui/sheet";
 
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "./Logo";
-import { usePathname } from "next/navigation";
-
-interface MenuItem {
-  title: string;
-  url: string;
-  description?: string;
-  icon?: React.ReactNode;
-  items?: MenuItem[];
-}
-
-interface NavbarProps {
-  logo?: {
-    url: string;
-    src: string;
-    alt: string;
-    title: string;
-  };
-  menu?: MenuItem[];
-  auth?: {
-    login: {
-      title: string;
-      url: string;
-    };
-    signup: {
-      title: string;
-      url: string;
-    };
-  };
-}
+import { MenuItem, NavbarProps } from "@/types/navbar.interface";
+import { useEffect, useState } from "react";
+import { axiosInstance } from "@/app/utils/axios";
+import { IUser } from "@/types/user.interface";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
 
 export default function Navbar({
   menu = [
@@ -74,11 +56,25 @@ export default function Navbar({
   ],
   auth = {
     login: { title: "Login", url: "/login" },
-    signup: { title: "Sign up", url: "/register" },
   },
 }: NavbarProps) {
-  const pathName = usePathname();
-  console.log(pathName);
+  const [currentUser, setCurrentUser] = useState<Partial<IUser | null>>(null);
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem("currentUser");
+    if (userInfo) {
+      setCurrentUser(JSON.parse(userInfo));
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    const result = await axiosInstance.get("/auth/logout");
+    if (result.data.success) {
+      toast.success("Logged out successfully");
+      setCurrentUser(null);
+      localStorage.removeItem("currentUser");
+    }
+  };
 
   return (
     <section className="w-full mx-auto container p-4">
@@ -94,13 +90,38 @@ export default function Navbar({
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        <div className="flex gap-2">
-          <Button asChild variant="outline" size="sm">
-            <Link href={auth.login.url}>{auth.login.title}</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link href={auth.signup.url}>{auth.signup.title}</Link>
-          </Button>
+        <div>
+          {currentUser ? (
+            <div className="flex items-center gap-x-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="text-black flex items-center gap-2"
+                  >
+                    <User />
+                    {currentUser.name}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-48">
+                  <div className="px-4 py-2 border-b">
+                    <p className="text-sm text-muted-foreground">
+                      {currentUser.email}
+                    </p>
+                  </div>
+                  <DropdownMenuItem asChild>
+                    <Button onClick={handleLogout} className="w-full text-left">
+                      Logout
+                    </Button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : (
+            <Button asChild>
+              <Link href={auth.login.url}>{auth.login.title}</Link>
+            </Button>
+          )}
         </div>
       </nav>
 
@@ -135,12 +156,18 @@ export default function Navbar({
                 </Accordion>
 
                 <div className="flex flex-col gap-3">
-                  <Button asChild variant="outline">
-                    <Link href={auth.login.url}>{auth.login.title}</Link>
-                  </Button>
-                  <Button asChild>
-                    <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                  </Button>
+                  {currentUser ? (
+                    <div>
+                      <p className="text-black">{currentUser.name}</p>
+                      <Button onClick={handleLogout} className="mt-3 w-full">
+                        Logout
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button asChild>
+                      <Link href={auth.login.url}>{auth.login.title}</Link>
+                    </Button>
+                  )}
                 </div>
               </div>
             </SheetContent>
