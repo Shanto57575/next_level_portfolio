@@ -32,7 +32,6 @@ export function LoginForm({
     setIsLoading(true);
     try {
       const response = await axiosInstance.post("/auth/login", data);
-      console.log(response);
 
       if (response.data.success) {
         localStorage.setItem("currentUser", JSON.stringify(response.data.data));

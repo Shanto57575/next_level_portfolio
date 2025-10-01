@@ -37,6 +37,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
 
 export default function Navbar({
   menu = [
@@ -109,8 +110,17 @@ export default function Navbar({
                       {currentUser.email}
                     </p>
                   </div>
+                  <Link href="/dashboard/profile">
+                    <Button className="w-full text-left mb-2 cursor-pointer">
+                      Dashboard
+                    </Button>
+                  </Link>
+
                   <DropdownMenuItem asChild>
-                    <Button onClick={handleLogout} className="w-full text-left">
+                    <Button
+                      onClick={handleLogout}
+                      className="w-full text-left cursor-pointer"
+                    >
                       Logout
                     </Button>
                   </DropdownMenuItem>
@@ -159,6 +169,9 @@ export default function Navbar({
                   {currentUser ? (
                     <div>
                       <p className="text-black">{currentUser.name}</p>
+                      <p className="font-semibold">
+                        <Link href="/dashboard/profile">Dashboard</Link>
+                      </p>
                       <Button onClick={handleLogout} className="mt-3 w-full">
                         Logout
                       </Button>
