@@ -37,7 +37,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
 
 export default function Navbar({
   menu = [

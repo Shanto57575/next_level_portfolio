@@ -71,6 +71,7 @@ export function LoginForm({
                         <FormLabel>Email</FormLabel>
                         <FormControl>
                           <Input
+                            type="email"
                             {...field}
                             value={field.value || ""}
                             placeholder="johndoe@gmail.com"
@@ -89,6 +90,7 @@ export function LoginForm({
                         <FormLabel>password</FormLabel>
                         <FormControl>
                           <Input
+                            type="password"
                             {...field}
                             value={field.value || ""}
                             placeholder="***************"

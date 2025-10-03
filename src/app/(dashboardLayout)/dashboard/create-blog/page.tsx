@@ -16,9 +16,9 @@ import Loader from "@/app/utils/Loader";
 import { useState, useTransition } from "react";
 import { axiosInstance } from "@/app/utils/axios";
 import { toast } from "sonner";
-import revalidateBlogs from "@/app/actions/actions";
+import { revalidateBlogs } from "@/app/actions/blogActions";
 
-type BlogFormValues = {
+export type BlogFormValues = {
   title: string;
   content: string;
   image?: string;
@@ -51,7 +51,7 @@ export default function CreateBlog() {
         );
         if (response.data.success) {
           toast.success(
-            <h1 className="text-center">New Blog added in Successfully</h1>
+            <h1 className="text-center">{response.data.message}</h1>
           );
           revalidateBlogs();
           form.reset();
@@ -125,7 +125,11 @@ export default function CreateBlog() {
             )}
           />
 
-          <Button disabled={isPending} type="submit" className="w-full">
+          <Button
+            disabled={isPending}
+            type="submit"
+            className="w-full cursor-pointer"
+          >
             {isPending ? <Loader /> : "Publish Blog"}
           </Button>
         </form>

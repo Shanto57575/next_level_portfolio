@@ -1,33 +1,12 @@
 import type { Metadata } from "next";
-
 import React from "react";
 import Image from "next/image";
-import {
-  Mail,
-  MapPin,
-  Github,
-  Linkedin,
-  Globe,
-  ExternalLink,
-} from "lucide-react";
+import { Mail, MapPin, Github, Linkedin, Globe } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About Me | Md. Shahidul Islam",
   description:
-    "MERN stack developer passionate about blockchain & AI. Software Engineer based in Chattogram, Bangladesh.",
-  keywords: [
-    "Software Engineer",
-    "MERN Stack",
-    "React",
-    "Next.js",
-    "Blockchain",
-    "AI",
-  ],
-  openGraph: {
-    title: "About Me | Md. Shahidul Islam",
-    description: "MERN stack developer passionate about blockchain & AI",
-    type: "profile",
-  },
+    "Software Engineer skilled in MERN stack and AI. Based in Chattogram, Bangladesh.",
 };
 
 type SocialLink = {
@@ -48,108 +27,22 @@ const socialLinks: SocialLink[] = [
   { href: "https://shansphere.vercel.app/", label: "Portfolio", Icon: Globe },
 ];
 
-export default function AboutMe() {
+export default function AboutPage() {
   const name = "Md. Shahidul Islam";
   const title = "Software Engineer";
   const location = "Chattogram, Bangladesh";
 
   const summary = `
-    Passionate about building scalable software and integrating AI into real-world solutions. 
-    Strong in fullstack web development, problem solving, and delivering user-focused products.
+    I am a passionate Software Engineer specializing in fullstack development and AI integration. 
+    I focus on building scalable, efficient, and user-focused software solutions while continuously exploring new technologies. 
+    With strong problem-solving skills and a drive to deliver impactful projects, I have created multiple applications, led a final year team project, and actively participated in competitive programming challenges.
   `;
 
-  const experience = {
-    company: "SM IT Solution",
-    role: "Fullstack Developer Intern",
-    duration: "May 2025 – Present",
-    responsibilities: [
-      "Convert Figma designs into production-ready React/Next.js frontends.",
-      "Develop REST APIs with Node.js/Express for scalable backend services.",
-      "Work with MongoDB/Mongoose for data management.",
-      "Implement secure authentication using JWT, Firebase, and Passport.js.",
-      "Payment gateway integration using stripe",
-      "Leverage AI tools to accelerate development and optimize workflows.",
-      "Handle multiple responsibilities across frontend and backend efficiently.",
-    ],
-  };
-
-  const projects = [
-    {
-      name: "StayZest",
-      live: "https://stayzest-cbf59.web.app",
-      github: "https://github.com/Shanto57575/stayzest",
-      tech: "MERN, Redux, JWT, Stripe, AI Integration",
-      details: [
-        "Developed a booking app with Stripe payment and AI trip planning.",
-        "Designed secure dashboards with JWT authentication.",
-        "Implemented pagination, filtering, and search features.",
-        "Created responsive UI with Tailwind CSS and Material UI (dark/light mode).",
-      ],
-    },
-    {
-      name: "Epic Care",
-      live: "https://doctreat-8f71f.web.app",
-      github: "https://github.com/Shanto57575/epic-care-client",
-      tech: "MERN, JWT, Stripe, TanStack Query",
-      details: [
-        "Implemented filters and pagination for doctor browsing.",
-        "Developed secure admin & user dashboards with payments.",
-        "Integrated JWT authentication for users & data protection.",
-        "Optimized API calls with TanStack Query + Axios interceptors.",
-      ],
-    },
-    {
-      name: "Insta-X Bridge",
-      github: "https://github.com/Shanto57575/insta-x-bridge",
-      tech: "Python, FastAPI, Groq, Apify, Twitter API",
-      details: [
-        "Fetches latest Instagram posts using Apify scrapers.",
-        "Summarizes captions with Groq LLM → generates tweet.",
-        "Posts tweets via Tweepy API automatically.",
-        "Endpoints for fetching, tweeting, automation.",
-      ],
-    },
-    {
-      name: "Customer Support Chatbot",
-      github: "https://github.com/Shanto57575/support-chatbot",
-      tech: "Python, FastAPI, LangChain, LangGraph, Qdrant, Groq, HuggingFace",
-      details: [
-        "Integrated Qdrant vector store + HuggingFace embeddings.",
-        "Used LangGraph for conversation flow & topic extraction.",
-        "Built FastAPI backend for real-time queries & sessions.",
-        "Implemented fallback logic for reliable answers.",
-      ],
-    },
-    {
-      name: "FundChain (Final Year Group Project)",
-      live: "https://fundchain7.netlify.app",
-      github: "https://github.com/Shanto57575/fundchain",
-      tech: "Ethereum Blockchain, MERN, Solidity, Ethers.js",
-      details: [
-        "Led 3-member team for blockchain-based crowdfunding app.",
-        "Implemented multi-currency donations via Coinbase API.",
-        "Hybrid authentication with MetaMask + MERN backend.",
-        "Smart contracts for campaign & transactions.",
-      ],
-    },
-    {
-      name: "Portfolio",
-      live: "https://shansphere.vercel.app",
-      github: "https://github.com/Shanto57575/portfolio",
-      tech: "Next.js, TypeScript, Tailwind CSS",
-      details: [
-        "Developed portfolio to showcase skills & projects.",
-        "Used Aceternity UI for modern design.",
-        "Leveraged TypeScript for type safety.",
-      ],
-    },
-  ];
-
   return (
-    <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 space-y-12">
+    <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
       {/* HEADER */}
       <div className="flex flex-col md:flex-row items-center gap-8">
-        <div className="relative w-40 h-40 sm:w-56 sm:h-56 rounded-2xl overflow-hidden ring-2 ring-slate-200 dark:ring-slate-700 shadow-md">
+        <div className="relative w-40 h-40 sm:w-72 sm:h-72 rounded-2xl overflow-hidden ring-2 ring-slate-200 dark:ring-slate-700 shadow-md">
           <Image
             src="https://i.ibb.co.com/bMWNbgZX/me.jpg"
             alt={`${name} avatar`}
@@ -158,17 +51,17 @@ export default function AboutMe() {
             priority
           />
         </div>
-        <div className="text-center md:text-left space-y-2">
+        <div className="text-center md:text-left space-y-1">
           <h2 className="text-3xl font-bold">{name}</h2>
           <p className="text-lg text-slate-600 dark:text-slate-300">{title}</p>
-          <p className="flex items-center justify-center md:justify-start gap-2 text-sm text-slate-500 dark:text-slate-400">
-            <MapPin className="w-4 h-4" />
-            {location}
+          <p className="flex items-center justify-center md:justify-start gap-2 text-slate-500 dark:text-slate-400">
+            <MapPin className="w-4 h-4" /> {location}
           </p>
-          <p className="text-slate-700 dark:text-slate-200 leading-relaxed max-w-3xl my-3">
+          <p className="text-sm text-justify text-slate-700 dark:text-slate-200 leading-relaxed max-w-3xl my-3">
             {summary}
           </p>
 
+          {/* SOCIAL LINKS */}
           <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-3">
             {socialLinks.map((s) => (
               <a
@@ -176,7 +69,7 @@ export default function AboutMe() {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 text-sm hover:scale-105 transition"
+                className="inline-flex items-center gap-2 px-3 py-2 rounded bg-slate-50 dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 text-sm hover:scale-105 transition"
               >
                 <s.Icon className="w-4 h-4" />
                 {s.label}
@@ -188,63 +81,108 @@ export default function AboutMe() {
 
       {/* EXPERIENCE */}
       <div>
-        <h3 className="text-xl font-semibold mb-3">Experience</h3>
-        <div className="bg-slate-50 dark:bg-slate-900 rounded-xl p-5 ring-1 ring-slate-200 dark:ring-slate-800 shadow-sm">
-          <h4 className="font-bold text-lg">{experience.role}</h4>
-          <p className="text-sm text-slate-500">
-            {experience.company} • {experience.duration}
+        <h3 className="text-2xl font-semibold mb-4">Experience</h3>
+        <div className="bg-slate-50 dark:bg-slate-900 rounded-xl p-6 ring-1 ring-slate-200 dark:ring-slate-800 shadow-md">
+          <h4 className="font-bold text-lg mb-2">
+            Fullstack Developer Intern – SM IT Solution
+          </h4>
+          <p className="text-slate-600 dark:text-slate-400 mb-2 text-sm sm:text-base">
+            May 2025 – Present
           </p>
-          <ul className="mt-3 list-disc list-inside space-y-2 text-slate-700 dark:text-slate-300">
-            {experience.responsibilities.map((r, i) => (
-              <li key={i}>{r}</li>
-            ))}
+          <ul className="list-disc list-inside text-slate-700 dark:text-slate-300 space-y-2 text-sm sm:text-base">
+            <li>
+              Converted Figma designs into production-ready React/Next.js
+              frontends.
+            </li>
+            <li>
+              Built REST APIs with Node.js/Express for scalable backend
+              services.
+            </li>
+            <li>Handled database design and operations using MongoDB.</li>
+            <li>
+              Implemented secure authentication using JWT, Firebase, and
+              Passport.js.
+            </li>
+            <li>Integrated Stripe payment for seamless transactions.</li>
           </ul>
         </div>
       </div>
 
-      {/* PROJECTS */}
+      {/* ACHIEVEMENTS */}
       <div>
-        <h3 className="text-xl font-semibold mb-6">Projects</h3>
-        <div className="grid gap-6 sm:grid-cols-2">
-          {projects.map((p) => (
-            <div
-              key={p.name}
-              className="bg-white dark:bg-slate-900 rounded-xl p-5 ring-1 ring-slate-200 dark:ring-slate-800 shadow hover:shadow-md transition"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="font-semibold">{p.name}</h4>
-                <div className="flex gap-2">
-                  {p.live && (
-                    <a
-                      href={p.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 hover:underline"
-                    >
-                      Live <ExternalLink className="w-3 h-3" />
-                    </a>
-                  )}
-                  {p.github && (
-                    <a
-                      href={p.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 hover:underline"
-                    >
-                      Code <Github className="w-3 h-3" />
-                    </a>
-                  )}
-                </div>
-              </div>
-              <p className="text-xs text-slate-500 mb-2">{p.tech}</p>
-              <ul className="list-disc list-inside space-y-1 text-sm text-slate-700 dark:text-slate-300">
-                {p.details.map((d, i) => (
-                  <li key={i}>{d}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        <h3 className="text-2xl font-semibold mb-4">Achievements</h3>
+        <ul className="list-disc list-inside text-slate-700 dark:text-slate-300 space-y-2 text-sm sm:text-base">
+          <li>
+            Built multiple projects showcasing fullstack and AI integration
+            skills.
+          </li>
+          <li>
+            Led a team in the final year project for FundChain (blockchain
+            crowdfunding platform).
+          </li>
+          <li>
+            Participated in 100+ programming contests and solved 700+ problems,
+            with a max rating of 1037.
+          </li>
+          <li>
+            Ranked 325th in the ICPC Asia Dhaka Regional Preliminary-2022 with
+            team IIUC_Boolean Bots.
+          </li>
+        </ul>
+      </div>
+
+      {/* TECHNICAL SKILLS */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-4">Technical Skills</h3>
+        <ul className="space-y-2 text-slate-700 dark:text-slate-300 text-sm">
+          <li>
+            <strong>Programming:</strong> JavaScript | TypeScript | Python |
+            C/C++
+          </li>
+          <li>
+            <strong>Frontend:</strong> React.js | Next.js | Redux | Tailwind |
+            Bootstrap | Shadcn UI | Material UI | Aceternity UI | explored
+            multiple UI libraries
+          </li>
+          <li>
+            <strong>Backend:</strong> Node.js | Express.js | MongoDB | Mongoose
+            | Prisma | PostgreSQL | Firebase | REST APIs | JWT | FastAPI
+            (familiar) | Passport.js | NextAuth
+          </li>
+          <li>
+            <strong>AI / LLM:</strong> LangChain | LangGraph (familiar)
+          </li>
+          <li>
+            <strong>Tools:</strong> Git | GitHub | Postman | Vercel | Netlify |
+            Render
+          </li>
+          <li>
+            <strong>Soft Skills:</strong> Problem Solving | Bias for Action |
+            Team Collaboration | and many more
+          </li>
+        </ul>
+      </div>
+
+      {/* EDUCATION */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-4">Education</h3>
+        <p className="text-slate-700 dark:text-slate-300 text-sm sm:text-base">
+          <strong>BSc in Computer Science & Engineering</strong> – International
+          Islamic University Chittagong
+        </p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">
+          CGPA: 3.35 / 4 | Core Courses: Data Structures, Algorithms,
+          Competitive Programming, OS, Networking, DBMS
+        </p>
+      </div>
+
+      {/* HOBBIES */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-4">Hobbies & Interests</h3>
+        <p className="text-slate-700 dark:text-slate-300 text-sm sm:text-base">
+          Building side projects to experiment with new technologies, watching
+          movies and TV series to stay inspired and relaxed.
+        </p>
       </div>
     </section>
   );
