@@ -126,14 +126,11 @@ export default function EditProjectDialog({
       );
       formData.append("Features", data.features.map((f) => f.text).join(","));
 
-      console.log("formData-==>", formData);
-
       startTransition(async () => {
         const response = await axiosInstance.put(
           `/project/${project.id}`,
           formData
         );
-        console.log("response==>", response);
 
         if (response?.data?.success) {
           toast.success(

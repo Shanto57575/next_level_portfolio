@@ -3,20 +3,24 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
-import { Calendar, Edit2, Trash2, Github, Globe } from "lucide-react";
+import {
+  Calendar,
+  Edit2,
+  Trash2,
+  Github,
+  Globe,
+  ExternalLink,
+} from "lucide-react";
 import { confirmDeleteToast } from "@/app/utils/confirmDeleteToast";
-// import EditBlogDialog from "./EditBlogDialog";
 import { IProject } from "@/types/project.interface";
 import { deleteProjectAction } from "@/app/actions/projectAction";
 import EditProjectDialog from "./EditProjectDialog";
 
 interface DashboardProjectCardProps {
-  key: number;
   project: IProject;
 }
 
 export default function DashboardProjectCard({
-  key,
   project,
 }: DashboardProjectCardProps) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -37,47 +41,45 @@ export default function DashboardProjectCard({
   };
 
   return (
-    <div
-      key={key}
-      className="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 flex flex-col h-full hover:shadow-md transition-shadow duration-300"
-    >
-      {/* Project Image */}
-      <div className="relative w-full h-52 bg-gray-100">
+    <div className="h-96 group bg-gradient-to-br from-white to-gray-50/50 rounded-2xl overflow-hidden shadow-md border border-gray-200/60 flex flex-col hover:shadow-xl hover:border-indigo-200 transition-all duration-300">
+      {/* Project Image with Overlay */}
+      <div className="relative w-full bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
         <Image
           src={project.image!}
           alt={project.title}
           width={500}
-          height={400}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          height={500}
+          className="w-full h-40 object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        {/* Date Badge */}
+        <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full shadow-lg text-xs font-medium text-gray-700 border border-gray-200/50">
+          <Calendar className="w-3.5 h-3.5 text-indigo-600" />
+          <span>
+            {new Date(project.createdAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </span>
+        </div>
       </div>
 
       {/* Content */}
-      <div className="p-5 flex flex-col flex-grow">
-        {/* Title + Date */}
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 line-clamp-2 group-hover:text-indigo-600 transition-colors">
-            {project.title}
-          </h3>
-          <div className="flex items-center gap-1 text-xs text-gray-500">
-            <Calendar className="w-3 h-3" />
-            <span>
-              {new Date(project.createdAt).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </span>
-          </div>
-        </div>
+      <div className="p-4 flex flex-col flex-grow">
+        {/* Title */}
+        <h3 className="font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-indigo-600 transition-colors leading-tight">
+          {project.title}
+        </h3>
 
         {/* Tech Stack */}
         {project.tech_stack?.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-3">
+          <div className="flex flex-wrap gap-2 mb-4">
             {project.tech_stack.map((tech, index) => (
               <span
                 key={index}
-                className="text-xs px-2 py-1 bg-indigo-50 text-indigo-700 rounded-full border border-indigo-200"
+                className="text-xs font-medium px-0.5 bg-gradient-to-r from-indigo-50 to-blue-50 text-indigo-700 rounded-lg border border-indigo-100 hover:border-indigo-300 transition-colors"
               >
                 {tech}
               </span>
@@ -85,25 +87,17 @@ export default function DashboardProjectCard({
           </div>
         )}
 
-        {/* Features */}
-        {project.Features?.length > 0 && (
-          <ul className="list-disc list-inside text-sm text-gray-600 mb-4 space-y-1">
-            {project.Features.map((feature, idx) => (
-              <li key={idx}>{feature}</li>
-            ))}
-          </ul>
-        )}
-
         {/* Links */}
-        <div className="flex flex-wrap gap-3 mb-4">
+        <div className="flex flex-wrap gap-2 mb-5 pb-5 border-b border-gray-200">
           {project.github_client && (
             <a
               href={project.github_client}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-xs text-gray-600 hover:text-gray-900"
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-0.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 hover:text-gray-900 transition-colors"
             >
-              <Github className="w-4 h-4" /> Client
+              <Github className="w-3.5 h-3.5" /> Client
+              <ExternalLink className="w-3 h-3 opacity-60" />
             </a>
           )}
           {project.github_server && (
@@ -111,9 +105,10 @@ export default function DashboardProjectCard({
               href={project.github_server}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-xs text-gray-600 hover:text-gray-900"
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-0.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 hover:text-gray-900 transition-colors"
             >
-              <Github className="w-4 h-4" /> Server
+              <Github className="w-3.5 h-3.5" /> Server
+              <ExternalLink className="w-3 h-3 opacity-60" />
             </a>
           )}
           {project.live && (
@@ -121,18 +116,19 @@ export default function DashboardProjectCard({
               href={project.live}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-xs text-gray-600 hover:text-gray-900"
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-0.5 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 rounded-lg hover:from-green-100 hover:to-emerald-100 transition-colors border border-green-200"
             >
-              <Globe className="w-4 h-4" /> Live
+              <Globe className="w-3.5 h-3.5" /> Live Demo
+              <ExternalLink className="w-3 h-3 opacity-60" />
             </a>
           )}
         </div>
 
-        {/* Buttons */}
+        {/* Action Buttons */}
         <div className="mt-auto flex gap-3">
           <button
             onClick={() => setIsEditOpen(true)}
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 shadow-sm hover:shadow-md transition-all duration-200 active:scale-95"
           >
             <Edit2 className="w-4 h-4" /> Edit
           </button>
@@ -140,10 +136,10 @@ export default function DashboardProjectCard({
           <button
             disabled={isDeleting}
             onClick={() => confirmDeleteToast(() => handleDelete(project.id))}
-            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-white transition ${
+            className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg shadow-sm transition-all duration-200 active:scale-95 ${
               isDeleting
-                ? "bg-red-400 cursor-not-allowed"
-                : "bg-red-600 hover:bg-red-700"
+                ? "bg-red-300 text-red-800 cursor-not-allowed"
+                : "bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-700 hover:to-rose-700 hover:shadow-md"
             }`}
           >
             <Trash2 className="w-4 h-4" />

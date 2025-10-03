@@ -5,6 +5,7 @@ export default async function ManageProjects() {
   const res = await fetch(`${process.env.SERVER_URL}/project/all-projects`, {
     next: { tags: ["projects"] },
   });
+
   const allProjects = await res.json();
 
   return (

@@ -16,7 +16,7 @@ import Loader from "@/app/utils/Loader";
 import { useState, useTransition } from "react";
 import { axiosInstance } from "@/app/utils/axios";
 import { toast } from "sonner";
-import { revalidateBlogs } from "@/app/actions/blogActions";
+import { revalidateProject } from "@/app/actions/projectAction";
 
 export type ProjectFormValues = {
   title: string;
@@ -70,7 +70,7 @@ export default function AddNewProject() {
           toast.success(
             <h1 className="text-center">{response?.data?.message}</h1>
           );
-          revalidateBlogs();
+          revalidateProject();
           form.reset();
         }
       });
@@ -110,7 +110,7 @@ export default function AddNewProject() {
             name="tech_stack"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tech Stack</FormLabel>
+                <FormLabel>Tech Stack (comma separator)</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="React, Next.js, Prisma (comma separated)"
@@ -129,7 +129,7 @@ export default function AddNewProject() {
             name="Features"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Features</FormLabel>
+                <FormLabel>Features (comma separator)</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Authentication, Payment, Dashboard (comma separated)"
