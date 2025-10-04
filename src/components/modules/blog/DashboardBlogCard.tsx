@@ -10,14 +10,10 @@ import { deleteBlogAction } from "@/app/actions/blogActions";
 import EditBlogDialog from "./EditBlogDialog";
 
 interface DashboardBlogCardProps {
-  key: number;
   blog: IBlog;
 }
 
-export default function DashboardBlogCard({
-  key,
-  blog,
-}: DashboardBlogCardProps) {
+export default function DashboardBlogCard({ blog }: DashboardBlogCardProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
@@ -37,12 +33,9 @@ export default function DashboardBlogCard({
   };
 
   return (
-    <div
-      key={key}
-      className="group bg-slate-50 rounded-xl overflow-hidden shadow border border-gray-200 flex flex-col h-full hover:shadow-lg transition-shadow duration-300"
-    >
+    <div className="group rounded-xl overflow-hidden shadow-sm border flex flex-col hover:shadow-md transition-all duration-300">
       {/* Image */}
-      <div className="relative w-full h-48 sm:h-56 bg-gray-100">
+      <div className="relative w-full h-44 overflow-hidden">
         <Image
           src={blog.image!}
           alt={blog.title}
@@ -53,14 +46,14 @@ export default function DashboardBlogCard({
       </div>
 
       {/* Content */}
-      <div className="p-5 sm:p-6 flex flex-col flex-grow">
+      <div className="p-4 flex flex-col flex-grow">
         {/* Author + Date */}
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-semibold text-sm">
+        <div className="flex items-center gap-2.5 mb-3">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white font-semibold text-sm shadow-sm">
             {blog.author?.name?.charAt(0).toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
+            <p className="text-sm font-medium text-gray-800 truncate">
               {blog.author?.name}
             </p>
             <div className="flex items-center gap-1 text-xs text-gray-500">
@@ -77,22 +70,22 @@ export default function DashboardBlogCard({
         </div>
 
         {/* Title */}
-        <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors duration-200">
+        <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors duration-200">
           {blog.title}
         </h3>
 
         {/* Content Preview */}
-        <p className="text-sm sm:text-base text-gray-700 mb-4 line-clamp-3 flex-grow leading-relaxed">
+        <p className="text-sm text-gray-600 mb-4 line-clamp-2 flex-grow leading-relaxed">
           {blog.content}
         </p>
 
         {/* Buttons */}
-        <div className="flex gap-3 mt-3">
+        <div className="flex gap-2 mt-auto">
           <button
             onClick={() => setIsEditOpen(true)}
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 active:scale-95 transition-all duration-200 shadow-sm"
           >
-            <Edit2 className="w-4 h-4" /> Edit
+            <Edit2 className="w-3.5 h-3.5" /> Edit
           </button>
 
           <EditBlogDialog
@@ -104,14 +97,14 @@ export default function DashboardBlogCard({
           <button
             disabled={isDeleting}
             onClick={() => confirmDeleteToast(() => handleDelete(blog.id))}
-            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded text-white transition
+            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-white text-sm font-medium transition-all duration-200 shadow-sm
               ${
                 isDeleting
-                  ? "bg-red-400 cursor-not-allowed"
-                  : "bg-red-600 hover:bg-red-700"
+                  ? "bg-red-400 cursor-not-allowed opacity-70"
+                  : "bg-red-600 hover:bg-red-700 active:scale-95"
               }`}
           >
-            <Trash2 className="w-4 h-4" />
+            <Trash2 className="w-3.5 h-3.5" />
             {isDeleting ? "Deleting..." : "Delete"}
           </button>
         </div>

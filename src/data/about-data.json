@@ -1,0 +1,78 @@
+{
+  "name": "Md. Shahidul Islam",
+  "title": "Software Engineer",
+  "location": "Chattogram, Bangladesh",
+  "summary": "I am a passionate Software Engineer specializing in fullstack development and AI integration. I focus on building scalable, efficient, and user-focused software solutions while continuously exploring new technologies. With strong problem-solving skills and a drive to deliver impactful projects, I have created multiple applications, led a final year team project, and actively participated in competitive programming challenges.",
+  "socialLinks": [
+    {
+      "href": "mailto:shahidul.islam.7th@gmail.com",
+      "label": "Email",
+      "icon": "Mail"
+    },
+    {
+      "href": "https://www.linkedin.com/in/md-shahidul-islam",
+      "label": "LinkedIn",
+      "icon": "Linkedin"
+    },
+    {
+      "href": "https://github.com/Shanto57575",
+      "label": "GitHub",
+      "icon": "Github"
+    },
+    {
+      "href": "https://shansphere.vercel.app/",
+      "label": "Portfolio",
+      "icon": "Globe"
+    }
+  ],
+  "experience": {
+    "title": "Fullstack Developer Intern – SM IT Solution",
+    "duration": "May 2025 – Present",
+    "responsibilities": [
+      "Converted Figma designs into production-ready React/Next.js frontends.",
+      "Built REST APIs with Node.js/Express for scalable backend services.",
+      "Handled database design and operations using MongoDB.",
+      "Implemented secure authentication using JWT, Firebase, and Passport.js.",
+      "Integrated Stripe payment for seamless transactions."
+    ]
+  },
+  "achievements": [
+    "Built multiple projects showcasing fullstack and AI integration skills.",
+    "Led a team in the final year project for FundChain (blockchain crowdfunding platform).",
+    "Participated in 100+ programming contests and solved 700+ problems, with a max rating of 1037.",
+    "Ranked 325th in the ICPC Asia Dhaka Regional Preliminary-2022 with team IIUC_Boolean Bots."
+  ],
+  "technicalSkills": [
+    {
+      "category": "Programming",
+      "skills": "JavaScript | TypeScript | Python | C/C++"
+    },
+    {
+      "category": "Frontend",
+      "skills": "React.js | Next.js | Redux | Tailwind | Bootstrap | Shadcn UI | Material UI | Aceternity UI | explored multiple UI libraries"
+    },
+    {
+      "category": "Backend",
+      "skills": "Node.js | Express.js | MongoDB | Mongoose | Prisma | PostgreSQL | Firebase | REST APIs | JWT | FastAPI (familiar) | Passport.js | NextAuth"
+    },
+    {
+      "category": "AI / LLM",
+      "skills": "LangChain | LangGraph (familiar)"
+    },
+    {
+      "category": "Tools",
+      "skills": "Git | GitHub | Postman | Vercel | Netlify | Render"
+    },
+    {
+      "category": "Soft Skills",
+      "skills": "Problem Solving | Bias for Action | Team Collaboration | and many more"
+    }
+  ],
+  "education": {
+    "degree": "BSc in Computer Science & Engineering",
+    "institution": "International Islamic University Chittagong",
+    "cgpa": "3.35 / 4",
+    "courses": "Data Structures, Algorithms, Competitive Programming, OS, Networking, DBMS"
+  },
+  "hobbies": "Building side projects to experiment with new technologies, watching movies and TV series to stay inspired and relaxed."
+}

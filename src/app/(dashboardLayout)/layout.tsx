@@ -11,7 +11,7 @@ export default function DashboardLayout({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen m-5">
+    <div className="flex min-h-screen">
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
@@ -23,7 +23,7 @@ export default function DashboardLayout({
 
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-      <main className="flex-1 overflow-auto bg-gray-50 p-4">{children}</main>
+      <main className="flex-1 overflow-auto p-4">{children}</main>
     </div>
   );
 }

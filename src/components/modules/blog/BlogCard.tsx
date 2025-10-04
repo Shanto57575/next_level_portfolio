@@ -17,9 +17,7 @@ export default function BlogCard({ blog }: { blog: IBlog }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
-      {/* Content Container */}
       <div className="p-5 sm:p-6 flex flex-col flex-grow">
-        {/* Author Info */}
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm">
             {blog.author?.name?.charAt(0).toUpperCase()}
@@ -41,17 +39,14 @@ export default function BlogCard({ blog }: { blog: IBlog }) {
           </div>
         </div>
 
-        {/* Title */}
         <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
           {blog.title}
         </h3>
 
-        {/* Content Preview */}
         <p className="text-sm sm:text-base text-gray-600 mb-4 line-clamp-3 flex-grow leading-relaxed">
           {blog.content}
         </p>
 
-        {/* Read More Link */}
         <Link
           href={`/blogs/${blog.id}`}
           className="flex items-center text-blue-600 font-semibold text-sm group-hover:text-blue-700 transition-colors"

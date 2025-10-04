@@ -41,7 +41,8 @@ export default function DashboardProjectCard({
   };
 
   return (
-    <div className="h-96 group bg-gradient-to-br from-white to-gray-50/50 rounded-2xl overflow-hidden shadow-md border border-gray-200/60 flex flex-col hover:shadow-xl hover:border-indigo-200 transition-all duration-300">
+    <div className="h-96 w-full group rounded-2xl overflow-hidden shadow-md border flex flex-col hover:shadow-xl transition-all duration-300">
+      {" "}
       {/* Project Image with Overlay */}
       <div className="relative w-full bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
         <Image
@@ -55,7 +56,7 @@ export default function DashboardProjectCard({
 
         {/* Date Badge */}
         <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full shadow-lg text-xs font-medium text-gray-700 border border-gray-200/50">
-          <Calendar className="w-3.5 h-3.5 text-indigo-600" />
+          <Calendar className="w-3.5 h-3.5 text-blue-600" />
           <span>
             {new Date(project.createdAt).toLocaleDateString("en-US", {
               month: "short",
@@ -65,11 +66,10 @@ export default function DashboardProjectCard({
           </span>
         </div>
       </div>
-
       {/* Content */}
       <div className="p-4 flex flex-col flex-grow">
         {/* Title */}
-        <h3 className="font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-indigo-600 transition-colors leading-tight">
+        <h3 className="font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-blue-600 transition-colors leading-tight">
           {project.title}
         </h3>
 
@@ -79,7 +79,7 @@ export default function DashboardProjectCard({
             {project.tech_stack.map((tech, index) => (
               <span
                 key={index}
-                className="text-xs font-medium px-0.5 bg-gradient-to-r from-indigo-50 to-blue-50 text-indigo-700 rounded-lg border border-indigo-100 hover:border-indigo-300 transition-colors"
+                className="text-xs font-medium px-0.5 bg-gradient-to-r from-blue-50 to-blue-50 text-blue-700 rounded-lg border border-blue-100 hover:border-blue-300 transition-colors"
               >
                 {tech}
               </span>
@@ -128,7 +128,7 @@ export default function DashboardProjectCard({
         <div className="mt-auto flex gap-3">
           <button
             onClick={() => setIsEditOpen(true)}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 shadow-sm hover:shadow-md transition-all duration-200 active:scale-95"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-blue-700 shadow-sm hover:shadow-md transition-all duration-200 active:scale-95"
           >
             <Edit2 className="w-4 h-4" /> Edit
           </button>
