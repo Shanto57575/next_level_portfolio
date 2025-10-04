@@ -27,7 +27,7 @@ export default function Sidebar({
     }
     if (isOpen) document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isOpen]);
+  }, [isOpen, setIsOpen]);
 
   const navItems = [
     { href: "/dashboard/profile", label: "Profile", icon: User },
@@ -52,11 +52,11 @@ export default function Sidebar({
 
       <aside
         ref={sidebarRef}
-        className={`fixed md:static top-0 left-0 h-screen md:h-auto w-64 bg-white shadow-md transition-transform duration-300 z-40
+        className={`fixed top-0 left-0 h-screen w-64 bg-white shadow-md transition-transform duration-300 z-40 flex flex-col
           ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 flex-shrink-0">
           <Link href="/" onClick={() => setIsOpen(false)}>
             <Logo />
           </Link>
@@ -69,7 +69,7 @@ export default function Sidebar({
         </div>
 
         {/* Navigation */}
-        <nav className="flex flex-col gap-1 p-4 text-black">
+        <nav className="flex flex-col gap-1 p-4 text-black overflow-y-auto flex-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathName === item.href;

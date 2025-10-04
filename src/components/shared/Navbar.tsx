@@ -24,12 +24,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Menu, User, X, LogOut, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "./Logo";
 import { MenuItem, NavbarProps } from "@/types/navbar.interface";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { axiosInstance } from "@/app/utils/axios";
-import { IUser } from "@/types/user.interface";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,7 +37,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import useAuth from "@/hooks/useAuth";
+import { useAuth } from "@/provider/AuthProvider";
 
 export default function Navbar({
   menu = [
@@ -60,19 +59,35 @@ export default function Navbar({
     login: { title: "Login", url: "/login" },
   },
 }: NavbarProps) {
-  const currentUser = useAuth();
+  const { user: currentUser, logout: clearAuth } = useAuth();
+
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+
+  // Close mobile menu on screen resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024 && isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isOpen]);
 
   const handleLogout = async () => {
     try {
       const result = await axiosInstance.get("/auth/logout");
       if (result.data.success) {
         toast.success(<h1 className="text-center">{result.data.message}</h1>);
+        clearAuth();
+        router.push("/");
       }
-    } catch (error) {
-      toast.error("Failed to logout");
-      console.error("Logout error:", error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(<>{error.response.data.message}</> || "Failed to logout");
     }
   };
 

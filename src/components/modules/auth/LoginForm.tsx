@@ -19,12 +19,15 @@ import { useRouter } from "next/navigation";
 import { axiosInstance } from "@/app/utils/axios";
 import { useState } from "react";
 import Loader from "@/app/utils/Loader";
+import { useAuth } from "@/provider/AuthProvider";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const [isLoading, setIsLoading] = useState(false);
+  const { setUser, refreshAuth } = useAuth();
+
   const form = useForm();
   const router = useRouter();
 
@@ -35,7 +38,12 @@ export function LoginForm({
       console.log(response);
       if (response.data.success) {
         toast.success(<h1 className="text-center">{response.data.message}</h1>);
-        router.push("/");
+        if (response.data.data) {
+          setUser(response.data.data);
+          router.push("/");
+        } else {
+          await refreshAuth();
+        }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

@@ -23,7 +23,7 @@ export default function DashboardLayout({
 
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-      <main className="flex-1 overflow-auto p-4">{children}</main>
+      <main className="flex-1 overflow-auto p-4 md:ml-64">{children}</main>
     </div>
   );
 }
