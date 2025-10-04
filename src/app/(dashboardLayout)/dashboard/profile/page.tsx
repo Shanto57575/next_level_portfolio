@@ -1,47 +1,14 @@
 "use client";
 
-import { IUser } from "@/types/user.interface";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { Mail, Calendar, Shield } from "lucide-react";
 import meImage from "../../../../../public/assets/professional.jpeg";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import useAuth from "@/hooks/useAuth";
 
 export default function ProfilePage() {
-  const [currentUser, setCurrentUser] = useState<Partial<IUser | null>>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-
-    const userInfo = localStorage.getItem("currentUser");
-    if (userInfo) {
-      try {
-        setCurrentUser(JSON.parse(userInfo));
-      } catch (error) {
-        console.error("Failed to parse user info:", error);
-      }
-    }
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div className="w-full min-h-screen flex items-center justify-center px-4 py-12">
-        <Card className="w-full max-w-md">
-          <CardContent className="pt-6">
-            <div className="text-center space-y-4">
-              <Skeleton className="w-24 h-24 rounded-full mx-auto" />
-              <Skeleton className="h-6 w-40 mx-auto" />
-              <Skeleton className="h-4 w-48 mx-auto" />
-              <Skeleton className="h-10 w-full" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  const currentUser = useAuth();
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center px-4 py-12">

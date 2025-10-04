@@ -38,6 +38,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import useAuth from "@/hooks/useAuth";
 
 export default function Navbar({
   menu = [
@@ -59,70 +60,21 @@ export default function Navbar({
     login: { title: "Login", url: "/login" },
   },
 }: NavbarProps) {
-  const [currentUser, setCurrentUser] = useState<Partial<IUser | null>>(null);
-  const [mounted, setMounted] = useState(false);
+  const currentUser = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    setMounted(true);
-
-    // Get user info from localStorage after mount
-    const userInfo = localStorage.getItem("currentUser");
-    if (userInfo) {
-      try {
-        setCurrentUser(JSON.parse(userInfo));
-      } catch (error) {
-        console.error("Failed to parse user info:", error);
-        localStorage.removeItem("currentUser");
-      }
-    }
-  }, []);
 
   const handleLogout = async () => {
     try {
       const result = await axiosInstance.get("/auth/logout");
       if (result.data.success) {
-        toast.success("Logged out successfully");
-        setCurrentUser(null);
-        localStorage.removeItem("currentUser");
+        toast.success(<h1 className="text-center">{result.data.message}</h1>);
       }
     } catch (error) {
       toast.error("Failed to logout");
       console.error("Logout error:", error);
     }
   };
-
-  if (!mounted) {
-    return (
-      <section className="w-full mx-auto container p-4">
-        <nav className="hidden justify-between lg:flex">
-          <Link href="/" className="flex items-center gap-2">
-            <Logo />
-          </Link>
-          <div className="flex items-center">
-            <NavigationMenu>
-              <NavigationMenuList>
-                {menu.map((item) => renderMenuItem(item, item.url))}
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-          <div className="w-24 h-10" />
-        </nav>
-
-        <div className="block lg:hidden">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2">
-              <Logo />
-            </Link>
-            <Button variant="outline" size="icon">
-              <Menu className="size-4" />
-            </Button>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section className="w-full mx-auto container p-4">

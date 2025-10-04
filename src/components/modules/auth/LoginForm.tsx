@@ -32,13 +32,16 @@ export function LoginForm({
     setIsLoading(true);
     try {
       const response = await axiosInstance.post("/auth/login", data);
-
+      console.log(response);
       if (response.data.success) {
-        localStorage.setItem("currentUser", JSON.stringify(response.data.data));
-        toast.success(<h1 className="text-center">Logged in Successfully</h1>);
+        toast.success(<h1 className="text-center">{response.data.message}</h1>);
         router.push("/");
       }
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(
+        <h1 className="text-center">{error.response.data.message}</h1>
+      );
       console.log(error);
     } finally {
       setIsLoading(false);

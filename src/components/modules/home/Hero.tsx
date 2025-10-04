@@ -50,16 +50,6 @@ export default function Hero() {
         transition={{ delay: 0.8, duration: 1 }}
         className="absolute top-0 left-0 w-full h-full -z-10 bg-gradient-to-br from-primary/10 via-transparent to-transparent"
       />
-
-      {/* Footer or Tagline */}
-      <motion.footer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-20 text-sm text-muted-foreground"
-      >
-        Building beautiful things with code 💻 | Shanto
-      </motion.footer>
     </main>
   );
 }
