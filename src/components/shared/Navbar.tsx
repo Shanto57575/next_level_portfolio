@@ -65,7 +65,6 @@ export default function Navbar({
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close mobile menu on screen resize
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024 && isOpen) {

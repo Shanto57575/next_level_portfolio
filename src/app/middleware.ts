@@ -1,14 +1,11 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  // const token = request.cookies.get("accessToken")?.value;
-  const cookieStore = await cookies();
-  const token = cookieStore.get("accessToken")?.value;
+  const token = request.cookies.get("accessToken")?.value;
 
-  console.log("Access Token =>", token, request.url);
+  console.log("Access Token =>", token);
 
   if (pathname.startsWith("/dashboard") && !token) {
     return NextResponse.redirect(new URL("/login", request.url));
@@ -22,5 +19,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login"],
+  matcher: ["/dashboard/:path*"],
 };
