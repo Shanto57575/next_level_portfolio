@@ -64,8 +64,8 @@ export default function CreateBlog() {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded shadow-md shadow-gray-300">
-      <h2 className="text-2xl font-semibold mb-6">Create Blog</h2>
+    <div className="max-w-xl mx-auto mt-32 p-6 bg-white rounded shadow-md shadow-gray-300">
+      <h2 className="text-2xl font-semibold mb-6">Create a Blog</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField

@@ -26,7 +26,7 @@ export default function Hero() {
           &
           <span className="font-semibold text-foreground">
             {" "}
-            MERN Stack Developer
+            Full Stack Developer
           </span>{" "}
           — I love building modern web apps, exploring AI integrations, and
           sharing what I learn through blogs.

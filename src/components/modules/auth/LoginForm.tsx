@@ -35,7 +35,7 @@ export function LoginForm({
     setIsLoading(true);
     try {
       const response = await axiosInstance.post("/auth/login", data);
-      console.log(response);
+
       if (response.data.success) {
         toast.success(<h1 className="text-center">{response.data.message}</h1>);
         if (response.data.data) {
@@ -48,7 +48,7 @@ export function LoginForm({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(
-        <h1 className="text-center">{error.response.data.message}</h1>
+        <h1 className="text-center">{error?.response?.data?.message}</h1>
       );
       console.log(error);
     } finally {

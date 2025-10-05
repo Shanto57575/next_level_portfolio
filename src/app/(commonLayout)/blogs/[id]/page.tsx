@@ -7,9 +7,9 @@ export const dynamicParams = true;
 
 export async function generateStaticParams() {
   try {
-    const blogs = await fetch(`${process.env.SERVER_URL}/blog/all-blogs`).then(
-      (res) => res.json()
-    );
+    const blogs = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/blog/all-blogs`
+    ).then((res) => res.json());
 
     return (
       blogs?.data?.map((blog: IBlog) => ({
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   try {
     const resolvedParams = await params;
     const response = await fetch(
-      `${process.env.SERVER_URL}/blog/${resolvedParams.id}`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/blog/${resolvedParams.id}`,
       {
         next: { revalidate: 60 }, // ISR: Revalidate every 60 seconds
       }
@@ -57,10 +57,10 @@ export default async function BlogDetails({
 
   try {
     const response = await fetch(
-      `${process.env.SERVER_URL}/blog/${resolvedParams.id}`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/blog/${resolvedParams.id}`,
       {
         next: {
-          revalidate: 60, // ISR: Revalidate every 60 seconds
+          revalidate: 60,
         },
       }
     );

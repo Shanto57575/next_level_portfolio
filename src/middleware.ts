@@ -1,17 +1,17 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  // const token = request.cookies.get("accessToken")?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("accessToken")?.value;
 
-  console.log("pathname from middleware", pathname);
-  const token = request.cookies.get("accessToken")?.value;
-  console.log("accessToken", token);
+  console.log("Access Token =>", token, request.url);
 
-  if (pathname.startsWith("/dashboard")) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
+  if (pathname.startsWith("/dashboard") && !token) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   if (pathname === "/login" && token) {

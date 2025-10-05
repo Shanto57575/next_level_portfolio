@@ -1,10 +1,19 @@
 import DashboardProjectCard from "@/components/modules/project/DashboardProjectCard";
 import { IProject } from "@/types/project.interface";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "dashboard | manage project",
+  description: "This is manage project page",
+};
 
 export default async function ManageProjects() {
-  const res = await fetch(`${process.env.SERVER_URL}/project/all-projects`, {
-    next: { tags: ["projects"] },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/project/all-projects`,
+    {
+      next: { tags: ["projects"] },
+    }
+  );
 
   const allProjects = await res.json();
 

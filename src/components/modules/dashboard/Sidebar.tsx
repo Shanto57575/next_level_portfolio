@@ -1,9 +1,10 @@
 "use client";
+
 import { useEffect, useRef } from "react";
 import { Logo } from "@/components/shared/Logo";
 import { User, FileText, Edit3, LayoutDashboard, Box, X } from "lucide-react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function Sidebar({
   isOpen,
@@ -15,7 +16,6 @@ export default function Sidebar({
   const pathName = usePathname();
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  // Close on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (

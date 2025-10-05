@@ -27,8 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshAuth = async () => {
     try {
       setLoading(true);
-      const result = await axiosInstance("/auth/me");
-      console.log("result", result);
+      const result = await axiosInstance.get("/auth/me");
       setUser(result?.data?.data);
     } catch {
       setUser(null);

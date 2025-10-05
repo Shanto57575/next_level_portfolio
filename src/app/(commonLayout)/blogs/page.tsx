@@ -8,11 +8,14 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const res = await fetch(`${process.env.SERVER_URL}/blog/all-blogs`, {
-    next: {
-      tags: ["blogs"],
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/blog/all-blogs`,
+    {
+      next: {
+        tags: ["blogs"],
+      },
+    }
+  );
 
   const allBlogs = await res.json();
 

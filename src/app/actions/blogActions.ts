@@ -13,6 +13,8 @@ export async function deleteBlogAction(blogId: number) {
     const cookieStore = await cookies();
     const cookieHeader = cookieStore.toString();
 
+    console.log(cookieStore, cookieHeader);
+
     const { data } = await axiosInstance.delete(`/blog/${blogId}`, {
       headers: {
         Cookie: cookieHeader,

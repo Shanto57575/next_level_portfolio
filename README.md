@@ -53,7 +53,7 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
    
    Create a `.env` file in the root directory:
    ```env
-   SERVER_URL=""
+   NEXT_PUBLIC_SERVER_URL=""
    ```
 
 4. **Run the development server**

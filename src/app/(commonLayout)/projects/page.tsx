@@ -11,11 +11,14 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const res = await fetch(`${process.env.SERVER_URL}/project/all-projects`, {
-    next: {
-      tags: ["projects"],
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/project/all-projects`,
+    {
+      next: {
+        tags: ["projects"],
+      },
+    }
+  );
 
   const allProjects = await res.json();
   const projects = allProjects?.data;

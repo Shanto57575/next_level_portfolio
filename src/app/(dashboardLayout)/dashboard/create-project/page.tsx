@@ -83,7 +83,7 @@ export default function AddNewProject() {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md shadow-gray-300">
+    <div className="max-w-xl mx-auto mt-20 p-6 bg-white rounded-xl shadow-md shadow-gray-300">
       <h2 className="text-2xl font-semibold mb-6">Add New Project</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
