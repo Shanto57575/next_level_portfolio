@@ -13,8 +13,9 @@ import {
 } from "lucide-react";
 import { confirmDeleteToast } from "@/app/utils/confirmDeleteToast";
 import { IProject } from "@/types/project.interface";
-import { deleteProjectAction } from "@/app/actions/projectAction";
 import EditProjectDialog from "./EditProjectDialog";
+import { axiosInstance } from "@/app/utils/axios";
+import { revalidateProject } from "@/app/actions/projectAction";
 
 interface DashboardProjectCardProps {
   project: IProject;
@@ -29,9 +30,12 @@ export default function DashboardProjectCard({
   const handleDelete = async (projectId: number) => {
     setIsDeleting(true);
     try {
-      const result = await deleteProjectAction(projectId);
+      const result = await axiosInstance.delete(`/project/${projectId}`);
+      if (result.data.success) {
+        toast.success(<h1 className="text-center">{result.data.message}</h1>);
+        revalidateProject();
+      }
       console.log(result);
-      toast.success("Project deleted successfully!");
     } catch (err) {
       console.error("err==>", err);
       toast.error("Failed to delete project");

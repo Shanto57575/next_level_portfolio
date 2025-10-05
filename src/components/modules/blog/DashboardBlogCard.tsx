@@ -6,8 +6,9 @@ import { IBlog } from "@/types/blog.interface";
 import Image from "next/image";
 import { Calendar, Edit2, Trash2 } from "lucide-react";
 import { confirmDeleteToast } from "@/app/utils/confirmDeleteToast";
-import { deleteBlogAction } from "@/app/actions/blogActions";
 import EditBlogDialog from "./EditBlogDialog";
+import { axiosInstance } from "@/app/utils/axios";
+import { revalidateBlogs } from "@/app/actions/blogActions";
 
 interface DashboardBlogCardProps {
   blog: IBlog;
@@ -20,10 +21,12 @@ export default function DashboardBlogCard({ blog }: DashboardBlogCardProps) {
   const handleDelete = async (blogId: number) => {
     setIsDeleting(true);
     try {
-      const result = await deleteBlogAction(blogId);
-
+      const result = await axiosInstance.delete(`/blog/${blogId}`);
+      if (result.data.success) {
+        toast.success(<h1 className="text-center">{result.data.message}</h1>);
+        revalidateBlogs();
+      }
       console.log(result);
-      toast.success("Blog deleted successfully!");
     } catch (err) {
       console.error("err==>", err);
       toast.error("Failed to delete blog");
