@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
@@ -26,7 +27,7 @@ import { Menu, User, X, LogOut, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "./Logo";
-import { MenuItem, NavbarProps } from "@/types/navbar.interface";
+import { MenuItem, NavbarPropsWithUser } from "@/types/navbar.interface";
 import { useState, useEffect } from "react";
 import { axiosInstance } from "@/app/utils/axios";
 import {
@@ -37,30 +38,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import { useAuth } from "@/provider/AuthProvider";
 
 export default function Navbar({
-  menu = [
-    { title: "Home", url: "/" },
-    {
-      title: "About Me",
-      url: "/about",
-    },
-    {
-      title: "My Projects",
-      url: "/projects",
-    },
-    {
-      title: "Blogs",
-      url: "/blogs",
-    },
-  ],
-  auth = {
-    login: { title: "Login", url: "/login" },
-  },
-}: NavbarProps) {
-  const { user: currentUser, logout: clearAuth } = useAuth();
-
+  menu,
+  auth,
+  currentUser = null,
+}: NavbarPropsWithUser) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -76,15 +59,16 @@ export default function Navbar({
     return () => window.removeEventListener("resize", handleResize);
   }, [isOpen]);
 
+  console.log("currentUser==>", currentUser);
+
   const handleLogout = async () => {
     try {
       const result = await axiosInstance.get("/auth/logout");
       if (result.data.success) {
         toast.success(<h1 className="text-center">{result.data.message}</h1>);
-        clearAuth();
         router.push("/");
+        router.refresh();
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(<>{error.response.data.message}</> || "Failed to logout");
     }
@@ -244,7 +228,6 @@ export default function Navbar({
                           </p>
                         </div>
                         <LayoutDashboard className="size-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-                        <span>Dashboard</span>
                       </Link>
 
                       <Button

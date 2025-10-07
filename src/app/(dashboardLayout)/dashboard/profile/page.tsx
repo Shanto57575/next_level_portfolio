@@ -1,19 +1,21 @@
-"use client";
-
 import Image from "next/image";
 import { Mail, Calendar, Shield, User } from "lucide-react";
 import meImage from "../../../../../public/assets/professional.jpeg";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useAuth } from "@/provider/AuthProvider";
+import { getAuthUser } from "@/lib/auth";
 
-export default function ProfilePage() {
-  const { user: currentUser } = useAuth();
+export const dynamic = "force-dynamic";
+
+export default async function ProfilePage() {
+  const currentUser = await getAuthUser();
+  console.log("currentUser", currentUser);
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 py-8 md:py-12 bg-gradient-to-br from-gray-50 to-gray-100">
       <Card className="w-full max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl shadow-xl border-0 overflow-hidden">
         {/* Header Background */}
+
         <div className="h-12 md:h-16 relative">
           <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
         </div>

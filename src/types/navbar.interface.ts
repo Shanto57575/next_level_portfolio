@@ -1,3 +1,5 @@
+import { IUser } from "./user.interface";
+
 export interface MenuItem {
   title: string;
   url: string;
@@ -6,18 +8,10 @@ export interface MenuItem {
   items?: MenuItem[];
 }
 
-export interface NavbarProps {
-  logo?: {
-    url: string;
-    src: string;
-    alt: string;
-    title: string;
+export interface NavbarPropsWithUser {
+  menu: MenuItem[];
+  auth: {
+    login: { title: string; url: string };
   };
-  menu?: MenuItem[];
-  auth?: {
-    login: {
-      title: string;
-      url: string;
-    };
-  };
+  currentUser?: Partial<IUser> | null;
 }

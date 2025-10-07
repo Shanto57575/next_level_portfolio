@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("accessToken")?.value;
 
-  console.log("Access Token =>", token);
+  console.log("AccessToken", token);
 
   if (pathname.startsWith("/dashboard") && !token) {
     return NextResponse.redirect(new URL("/login", request.url));
