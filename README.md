@@ -4,7 +4,7 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 
 ## 🚀 Live Demo
 
-**Frontend:** [Live Link](https://shantofolio.vercel.app)  
+**Frontend:** [Live Link](https://shantoportfolio.vercel.app)  
 
 ## ✨ Features
 
