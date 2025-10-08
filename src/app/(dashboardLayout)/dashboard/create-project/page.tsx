@@ -17,6 +17,7 @@ import { useState, useTransition } from "react";
 import { axiosInstance } from "@/app/utils/axios";
 import { toast } from "sonner";
 import { revalidateProject } from "@/app/actions/projectAction";
+import { useUser } from "@/hooks/useUser";
 
 export type ProjectFormValues = {
   title: string;
@@ -29,8 +30,10 @@ export type ProjectFormValues = {
 };
 
 export default function AddNewProject() {
+  const { token } = useUser();
   const [file, setFile] = useState<File | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<ProjectFormValues>({
     defaultValues: {
@@ -51,6 +54,8 @@ export default function AddNewProject() {
     }
 
     try {
+      setIsLoading(true);
+
       const formdata = new FormData();
       formdata.append("file", file);
       formdata.append("title", data.title);
@@ -60,25 +65,34 @@ export default function AddNewProject() {
       formdata.append("live", data.live || "");
       formdata.append("Features", data.Features);
 
-      startTransition(async () => {
-        const response = await axiosInstance.post(
-          "/project/create-project",
-          formdata
-        );
-
-        if (response.data.success) {
-          toast.success(
-            <h1 className="text-center">{response?.data?.message}</h1>
-          );
-          revalidateProject();
-          form.reset();
+      const response = await axiosInstance.post(
+        "/project/create-project",
+        formdata,
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
-      });
-    } catch (error) {
-      console.log(error);
-      toast.error(
-        <h1 className="text-center">❌ Failed to add new project</h1>
       );
+
+      if (response.data.success) {
+        toast.success(<h1 className="text-center">{response.data.message}</h1>);
+
+        startTransition(() => {
+          revalidateProject();
+        });
+
+        form.reset();
+        setFile(null);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error(error);
+      toast.error(
+        <h1 className="text-center">
+          ❌ {error.response.data.message || "Failed to add new project"}
+        </h1>
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -217,13 +231,12 @@ export default function AddNewProject() {
             )}
           />
 
-          {/* Submit */}
           <Button
-            disabled={isPending}
+            disabled={isLoading || isPending}
             type="submit"
             className="w-full cursor-pointer"
           >
-            {isPending ? <Loader /> : "Publish Project"}
+            {isLoading || isPending ? <Loader /> : "Publish Project"}
           </Button>
         </form>
       </Form>

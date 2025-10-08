@@ -1,5 +1,5 @@
 import Footer from "@/components/shared/Footer";
-import { NavbarWrapper } from "@/components/shared/NavbarWrapper";
+import Navbar from "@/components/shared/Navbar";
 import React from "react";
 
 export default function CommonLayout({
@@ -9,7 +9,7 @@ export default function CommonLayout({
 }) {
   return (
     <div>
-      <NavbarWrapper />
+      <Navbar />
       <main className="min-h-dvh">{children}</main>
       <Footer />
     </div>

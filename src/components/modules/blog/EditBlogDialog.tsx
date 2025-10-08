@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/dialog";
 import { IBlog } from "@/types/blog.interface";
 import Image from "next/image";
+import { useUser } from "@/hooks/useUser";
 
 type BlogFormValues = {
   title: string;
@@ -46,8 +47,10 @@ export default function EditBlogDialog({
   open,
   onOpenChange,
 }: EditBlogDialogProps) {
+  const { token } = useUser();
   const [file, setFile] = useState<File | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<BlogFormValues>({
     defaultValues: {
@@ -70,13 +73,16 @@ export default function EditBlogDialog({
 
   const onSubmit = async (data: BlogFormValues) => {
     try {
+      setIsLoading(true);
       const formdata = new FormData();
       if (file) formdata.append("file", file);
       if (data.title) formdata.append("title", data.title);
       if (data.title) formdata.append("content", data.content);
 
       startTransition(async () => {
-        const response = await axiosInstance.put(`/blog/${blog.id}`, formdata);
+        const response = await axiosInstance.put(`/blog/${blog.id}`, formdata, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         if (response.data.success) {
           toast.success(
             <h1 className="text-center">{response.data.message}</h1>
@@ -89,6 +95,8 @@ export default function EditBlogDialog({
     } catch (error) {
       console.log(error);
       toast.error(<h1 className="text-center">Failed to update blog</h1>);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -187,8 +195,8 @@ export default function EditBlogDialog({
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button type="submit" disabled={isPending}>
-                {isPending ? (
+              <Button type="submit" disabled={isLoading || isPending}>
+                {isLoading || isPending ? (
                   <div className="flex items-center gap-x-1">
                     saving <Loader />
                   </div>

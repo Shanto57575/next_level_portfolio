@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
@@ -25,11 +24,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Menu, User, X, LogOut, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
-import { MenuItem, NavbarPropsWithUser } from "@/types/navbar.interface";
+import { MenuItem } from "@/types/navbar.interface";
 import { useState, useEffect } from "react";
-import { axiosInstance } from "@/app/utils/axios";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,14 +35,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "sonner";
+import { useUser } from "@/hooks/useUser";
 
-export default function Navbar({
-  menu,
-  auth,
-  currentUser = null,
-}: NavbarPropsWithUser) {
-  const router = useRouter();
+const menu = [
+  { title: "Home", url: "/" },
+  { title: "About Me", url: "/about" },
+  { title: "My Projects", url: "/projects" },
+  { title: "Blogs", url: "/blogs" },
+];
+
+const auth = {
+  login: { title: "Login", url: "/login" },
+};
+
+export default function Navbar() {
+  const { user: currentUser, logout: handleLogout } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -58,21 +63,6 @@ export default function Navbar({
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [isOpen]);
-
-  console.log("currentUser==>", currentUser);
-
-  const handleLogout = async () => {
-    try {
-      const result = await axiosInstance.get("/auth/logout");
-      if (result.data.success) {
-        toast.success(<h1 className="text-center">{result.data.message}</h1>);
-        router.push("/");
-        router.refresh();
-      }
-    } catch (error: any) {
-      toast.error(<>{error.response.data.message}</> || "Failed to logout");
-    }
-  };
 
   return (
     <section className="w-full mx-auto container p-4">

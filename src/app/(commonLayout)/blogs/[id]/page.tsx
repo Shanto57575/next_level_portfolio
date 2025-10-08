@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/blog/${resolvedParams.id}`,
       {
-        next: { revalidate: 60 }, // ISR: Revalidate every 60 seconds
+        next: { revalidate: 60 },
       }
     );
 

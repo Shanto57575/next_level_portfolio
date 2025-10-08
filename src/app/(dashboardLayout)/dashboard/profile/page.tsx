@@ -1,15 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import { Mail, Calendar, Shield, User } from "lucide-react";
 import meImage from "../../../../../public/assets/professional.jpeg";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getAuthUser } from "@/lib/auth";
+import { useUser } from "@/hooks/useUser";
 
 export const dynamic = "force-dynamic";
 
-export default async function ProfilePage() {
-  const currentUser = await getAuthUser();
-  console.log("currentUser", currentUser);
+export default function ProfilePage() {
+  const { user: currentUser } = useUser();
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 py-8 md:py-12 bg-gradient-to-br from-gray-50 to-gray-100">

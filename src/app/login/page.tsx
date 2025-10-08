@@ -1,10 +1,11 @@
 import { LoginForm } from "@/components/modules/auth/LoginForm";
 import { Logo } from "@/components/shared/Logo";
+import AuthRedirect from "@/route/AuthRedirect";
 import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Login",
+  title: "portfolio | Login",
   description: "This is Login Page",
 };
 
@@ -17,7 +18,9 @@ export default async function LoginPage() {
             <Logo />
           </Link>
         </div>
-        <LoginForm />
+        <AuthRedirect>
+          <LoginForm />
+        </AuthRedirect>
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ import { useState, useTransition } from "react";
 import { axiosInstance } from "@/app/utils/axios";
 import { toast } from "sonner";
 import { revalidateBlogs } from "@/app/actions/blogActions";
+import { useUser } from "@/hooks/useUser";
 
 export type BlogFormValues = {
   title: string;
@@ -27,6 +28,8 @@ export type BlogFormValues = {
 export default function CreateBlog() {
   const [file, setFile] = useState<File | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
+  const { token } = useUser();
 
   const form = useForm<BlogFormValues>({
     defaultValues: {
@@ -37,29 +40,40 @@ export default function CreateBlog() {
   });
 
   const onSubmit = async (data: BlogFormValues) => {
-    if (!file) return;
-    try {
-      const formdata = new FormData();
-      formdata.append("file", file!);
-      formdata.append("title", data.title);
-      formdata.append("content", data.content);
+    if (!file) return toast.error("Please select a file first.");
 
-      startTransition(async () => {
-        const response = await axiosInstance.post(
-          "/blog/create-blog",
-          formdata
-        );
-        if (response.data.success) {
-          toast.success(
-            <h1 className="text-center">{response.data.message}</h1>
-          );
-          revalidateBlogs();
-          form.reset();
-        }
+    try {
+      setIsLoading(true);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("title", data.title);
+      formData.append("content", data.content);
+
+      const response = await axiosInstance.post("/blog/create-blog", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-    } catch (error) {
-      console.log(error);
-      toast.error(<h1 className="text-center">Failed to add new blog</h1>);
+
+      if (response.data.success) {
+        toast.success(<h1 className="text-center">{response.data.message}</h1>);
+
+        startTransition(() => {
+          revalidateBlogs();
+        });
+
+        form.reset();
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("Blog create error:", error);
+      toast.error(
+        <h1 className="text-center">
+          {error.response.data.message || "Failed to add new blog"}
+        </h1>
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -107,7 +121,7 @@ export default function CreateBlog() {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image URL</FormLabel>
+                <FormLabel>Upload Image</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -126,11 +140,11 @@ export default function CreateBlog() {
           />
 
           <Button
-            disabled={isPending}
+            disabled={isLoading || isPending}
             type="submit"
             className="w-full cursor-pointer"
           >
-            {isPending ? <Loader /> : "Publish Blog"}
+            {isLoading || isPending ? <Loader /> : "Publish Blog"}
           </Button>
         </form>
       </Form>

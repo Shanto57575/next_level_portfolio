@@ -28,6 +28,7 @@ import Image from "next/image";
 import { IProject } from "@/types/project.interface";
 import { Plus, X } from "lucide-react";
 import { revalidateProject } from "@/app/actions/projectAction";
+import { useUser } from "@/hooks/useUser";
 
 type ProjectFormValues = {
   title: string;
@@ -51,8 +52,10 @@ export default function EditProjectDialog({
   open,
   onOpenChange,
 }: EditProjectDialogProps) {
+  const { token } = useUser();
   const [file, setFile] = useState<File | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<ProjectFormValues>({
     defaultValues: {
@@ -111,6 +114,7 @@ export default function EditProjectDialog({
 
   const onSubmit = async (data: ProjectFormValues) => {
     try {
+      setIsLoading(true);
       const formData = new FormData();
 
       if (file) formData.append("file", file);
@@ -126,27 +130,34 @@ export default function EditProjectDialog({
       );
       formData.append("Features", data.features.map((f) => f.text).join(","));
 
-      startTransition(async () => {
-        const response = await axiosInstance.put(
-          `/project/${project.id}`,
-          formData
+      const response = await axiosInstance.put(
+        `/project/${project.id}`,
+        formData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response?.data?.success) {
+        toast.success(
+          <h1 className="text-center">{response.data.message || "Saved"}</h1>
         );
 
-        if (response?.data?.success) {
-          toast.success(
-            <h1 className="text-center">{response.data.message || "Saved"}</h1>
-          );
+        startTransition(() => {
           revalidateProject();
-          reset();
-          setFile(null);
-          onOpenChange(false);
-        } else {
-          toast.error("Update failed");
-        }
-      });
+        });
+
+        reset();
+        setFile(null);
+        onOpenChange(false);
+      } else {
+        toast.error("Update failed");
+      }
     } catch (err) {
       console.error("err==>", err);
       toast.error("Failed to update project");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -362,10 +373,10 @@ export default function EditProjectDialog({
                   <div className="flex items-center gap-2">
                     <Button
                       type="submit"
-                      disabled={isPending}
+                      disabled={isLoading || isPending}
                       className="flex items-center gap-2"
                     >
-                      {isPending ? (
+                      {isLoading || isPending ? (
                         <>
                           <Loader /> Saving
                         </>

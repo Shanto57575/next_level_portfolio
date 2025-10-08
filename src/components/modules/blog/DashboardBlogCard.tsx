@@ -9,19 +9,23 @@ import { confirmDeleteToast } from "@/app/utils/confirmDeleteToast";
 import EditBlogDialog from "./EditBlogDialog";
 import { axiosInstance } from "@/app/utils/axios";
 import { revalidateBlogs } from "@/app/actions/blogActions";
+import { useUser } from "@/hooks/useUser";
 
 interface DashboardBlogCardProps {
   blog: IBlog;
 }
 
 export default function DashboardBlogCard({ blog }: DashboardBlogCardProps) {
+  const { token } = useUser();
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   const handleDelete = async (blogId: number) => {
     setIsDeleting(true);
     try {
-      const result = await axiosInstance.delete(`/blog/${blogId}`);
+      const result = await axiosInstance.delete(`/blog/${blogId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (result.data.success) {
         toast.success(<h1 className="text-center">{result.data.message}</h1>);
         revalidateBlogs();

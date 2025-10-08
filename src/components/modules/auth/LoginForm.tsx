@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -31,19 +32,38 @@ export function LoginForm({
 
   const onSubmit = async (data: FieldValues) => {
     setIsLoading(true);
-    try {
-      const response = await axiosInstance.post("/auth/login", data);
 
-      if (response.data.success) {
-        toast.success(<h1 className="text-center">{response.data.message}</h1>);
+    try {
+      const result = await axiosInstance.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/login`,
+        { email: data.email, password: data.password }
+      );
+
+      if (result.data.success) {
+        const token = result?.data?.data?.token;
+        const user = result?.data?.data?.user;
+        if (token) {
+          localStorage.setItem("accessToken", token);
+        }
+        if (user) {
+          localStorage.setItem("user", JSON.stringify(user));
+        }
+
+        toast.success(<h1 className="text-center">{result.data.message}</h1>);
         router.push("/");
+      } else {
+        toast.error(
+          <h1 className="text-center">
+            {result.data.message || "Something went wrong"}
+          </h1>
+        );
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(
-        <h1 className="text-center">{error?.response?.data?.message}</h1>
+        <h1 className="text-center">
+          {`${error?.response?.data?.message}` || "Network Error"}
+        </h1>
       );
-      console.log(error);
     } finally {
       setIsLoading(false);
     }

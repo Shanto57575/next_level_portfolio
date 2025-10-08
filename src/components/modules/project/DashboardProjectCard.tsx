@@ -16,6 +16,7 @@ import { IProject } from "@/types/project.interface";
 import EditProjectDialog from "./EditProjectDialog";
 import { axiosInstance } from "@/app/utils/axios";
 import { revalidateProject } from "@/app/actions/projectAction";
+import { useUser } from "@/hooks/useUser";
 
 interface DashboardProjectCardProps {
   project: IProject;
@@ -24,13 +25,16 @@ interface DashboardProjectCardProps {
 export default function DashboardProjectCard({
   project,
 }: DashboardProjectCardProps) {
+  const { token } = useUser();
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   const handleDelete = async (projectId: number) => {
     setIsDeleting(true);
     try {
-      const result = await axiosInstance.delete(`/project/${projectId}`);
+      const result = await axiosInstance.delete(`/project/${projectId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (result.data.success) {
         toast.success(<h1 className="text-center">{result.data.message}</h1>);
         revalidateProject();
